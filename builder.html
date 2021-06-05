@@ -288,8 +288,8 @@
             //console.log(mysite)
             document.getElementById('newsitelink').href = 'index.html?ori='+mysite.origin
             document.getElementById('editsitelink').href = 'builder.html?ori='+mysite.origin
-            document.getElementById('newsiteurl').innerHTML = "index.html?ori="+mysite.origin
-            document.getElementById('editsiteurl').innerHTML = "builder.html?ori="+mysite.origin
+            document.getElementById('newsiteurl').innerHTML = "https://saichaya.github.io/microsite/?ori="+mysite.origin
+            document.getElementById('editsiteurl').innerHTML = "https://saichaya.github.io/microsite/builder?ori="+mysite.origin
             document.getElementById('mainmodal').style.display='block'
         }
         function setform(site){
@@ -304,7 +304,7 @@
             document.getElementById("inp_hero_image").value = site.heroimgurl
             document.getElementById("inp_section2_image").value = site.squareimgurl
             document.getElementById("inp_section3_emb").value = site.embed
-            document.getElementById("previewframe").src = 'index.html' //?ori='+site.origin
+            document.getElementById("previewframe").src = 'index.html?ori='+site.origin
         }
     </script>
 </body>
