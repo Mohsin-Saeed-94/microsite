@@ -73,7 +73,7 @@
     </style>
     <script async defer type="application/javascript" src="https://tonicpow.com/scripts/tonicpow.js"></script>
     <script>
-        TonicPow.shareButton('sharebtn')
+        TonicPow.shareButton('myButton',{width: 90})
     </script>
     <script src="dist/bsv.browser.min.js"></script>
     <script src="dist/run.browser.min.js"></script>
@@ -129,7 +129,8 @@
     </div>
     <footer>
         <span id="copyright">©website</span>
-        <div class="tonicpow-widget" data-widget-id="2a4055d6b9b94017151bb5dfa2e9d50cf9fb0164c9f345e6bb334a1f0c2af97d" />
+        <div class="tonicpow-widget" data-widget-type="share-button"
+             data-button-id="myButton"></div>
     </footer>
     <script>
         var x = location.search
