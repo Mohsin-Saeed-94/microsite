@@ -17,6 +17,9 @@ The current version uses our Owner Private Key to issue/update Jigs. The user do
 
 # Possibilities
 Providing Owner Private Keys to users - Let users "own" their site data
+
 Social Media Button Widget - Link to user's HandCashMe, BitPost, Relica Accounts
+
 Branded Domain Short Links - Provide branded short links to the microsite
+
 Design Template Market - Let UI designers create and sell CSS NFTs 
