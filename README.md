@@ -24,4 +24,6 @@ Social Media Button Widget - Link to user's HandCashMe, BitPost, Relica Accounts
 
 Branded Domain Short Links - Provide branded short links to the microsite
 
-Design Template Market - Let UI designers create and sell CSS NFTs 
+Design Template Market - Let UI designers create and sell CSS NFTs
+
+Roll Back - View Change History and roll back to an old version.
