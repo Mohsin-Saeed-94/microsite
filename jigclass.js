@@ -24,7 +24,19 @@ class Site extends Jig {
     setEmbed(html){
         this.embed = html
     }
+    setCSS(cssjig){
+        this.css = cssjig
+    }
   }
-  Site.icon={ emoji: '🏕' }
+  Site.metadata={ emoji: '🏕' }
 
-  //Site location 1b7b2f40379d61f1ecf7dd287aebb63f11ed53b2d4265cccab3991b95a8eceb3_o1
+  class CSS extends Jig {
+    init(url){
+        this.url = url
+    }
+  }
+  CSS.metadata = {emoji:'👔'}
+  
+
+  //Site location 068b8fd258aaf47bb18907f728929d82437cb385001f313116bb61d2f4883cd9_o1
+  //CSS location 75210f54ee4c219cb381d0adc639c53e2cd206d93d28d3be49647904c4570ec2_o1

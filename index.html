@@ -146,6 +146,7 @@
         }
 
         function loadsite(site){
+            document.getElementById("mystyle").href = site.css.url
             var hero = document.querySelector(".hero")
             hero.style.background = 'url('+ site.heroimgurl+')' 
             document.getElementById('img_sec2').src = site.squareimgurl
@@ -162,9 +163,6 @@
             document.getElementById('txt_sec3').innerHTML = site.content[2]
             document.getElementById('embed_sec3').innerHTML = site.embed
             document.getElementById('copyright').innerHTML = '©' + site.title
-        }
-        function setstyle(){
-            document.getElementById("mystyle").href = "css/style_2.css"
         }
     </script>
 </body>

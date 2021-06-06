@@ -184,11 +184,20 @@
             </div>
         </div>
     </div>
+    <div class="spaciousdiv">
+        <h2>Features</h2>
+        <div class="flex_container">
+            <div style="max-width:600px;">
+                <h4>TonicPow Share Button</h4>
+                <p>Your microsite has a TonicPow Share Button built in so that the visitors can promote it. All you need to do is to set up a campaign for your microsite at <a href="https://tpow.app/saichaya">TonicPow</a>.<p>
+            </div>
+        </div>
+    </div>
     <div class="rib"></div>
     <div class="spaciousdiv" id="builder">
         <h1>Build Your Microsite</h1>
         <div class="preview_container">
-            <iframe id="previewframe" src="index.html" width="40%" height="950" style="margin:10px;border:1px solid blueviolet;"></iframe>
+            <iframe id="previewframe" src="index.html" width="40%" height="980" style="margin:10px;border:1px solid blueviolet;"></iframe>
             <form style="margin:10px;">
                 <label for="title">Site Title:</label>
                 <input type="text" id="inp_sitetitle" name="title" placeholder="Dog Walking Service"><br>
@@ -212,6 +221,12 @@
                 <textarea name="sec3_cont" id="inp_section3_content"></textarea><br>
                 <label for="sec3_embed">Section 3 Embed:</label>
                 <textarea name="sec3_embed" id="inp_section3_emb" placeholder="Copy & Paste HTML from Google Map, YouTube, Twitter embeds"></textarea>
+                <label for="css">Style:</label>
+                <select name="css" id="inp_css" onchange="previewStyle()">
+                    <option value=1>Classic</option>
+                    <option value=2>Teal Blue</option>
+                    <option value=3>Ash Gray</option>
+                </select>
             </form>
         </div>
         <div class="onecolumn_container">
@@ -238,7 +253,7 @@
     </div>
     <script>
         var x = location.search
-        var amount = 0.5
+        var amount = 0.05
         window.onload = async function(){
             let origin = getUrlVars()["ori"]
             if(origin){
@@ -258,6 +273,20 @@
                 onError: function (arg) { console.log('onError', arg) }
             })
         }
+        function cssurl(){
+            var css = document.getElementById("inp_css").value
+            var css_url
+            switch(css){
+                case "1": css_url="css/style_1.css" 
+                break
+                case "2": css_url="css/style_2.css" 
+                break
+                case "3": css_url="css/style_3.css" 
+                break
+                default: css_url="css/style_1.css" 
+            }
+            return css_url
+        }
         async function publish(){
             var title = document.getElementById("inp_sitetitle").value
             var subtitle = document.getElementById("inp_subtitle").value
@@ -270,8 +299,10 @@
             var img_hero = document.getElementById("inp_hero_image").value
             var img_sqr = document.getElementById("inp_section2_image").value
             var html_emb = document.getElementById("inp_section3_emb").value
+            var css_url = cssurl()
             const tx = new Run.Transaction()
             const mysite = new Site()
+            const mycss = new CSS(css_url)
             tx.update(() => {
                 mysite.setTitle(title)
                 mysite.setSubtitle(subtitle)
@@ -284,9 +315,10 @@
                 mysite.setHeroImg(img_hero)
                 mysite.setSquareImg(img_sqr)
                 mysite.setEmbed(html_emb)
+                mysite.setCSS(mycss)
             })
             await tx.publish()
-            //console.log(mysite)
+            console.log(mysite)
             document.getElementById('newsitelink').href = 'index.html?ori='+mysite.origin
             document.getElementById('editsitelink').href = 'builder.html?ori='+mysite.origin
             document.getElementById('newsiteurl').innerHTML = "https://saichaya.github.io/microsite/?ori="+mysite.origin
@@ -306,6 +338,21 @@
             document.getElementById("inp_section2_image").value = site.squareimgurl
             document.getElementById("inp_section3_emb").value = site.embed
             document.getElementById("previewframe").src = 'index.html?ori='+site.origin
+            switch(site.css.url){
+                case "css/style_1.css": document.getElementById('inp_css').value = "1"
+                break
+                case "css/style_2.css": document.getElementById('inp_css').value = "2"
+                break
+                case "css/style_3.css": document.getElementById('inp_css').value = "3"
+                break
+                default: document.getElementById('inp_css').value = "1"
+            }
+        }
+        function previewStyle(){
+            var x = document.getElementById("previewframe")
+            var y = (x.contentWindow || x.contentDocument)
+            if (y.document)y = y.document
+            y.getElementById("mystyle").href = cssurl()
         }
     </script>
 </body>
