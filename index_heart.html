@@ -169,8 +169,6 @@
                 if(hcauth){
                     document.getElementById('unlockheartbtn').style.display = "none"
                     document.querySelector(".heartbtn_container").className = "heartbtn_container"
-                    const publicProfile = await account.profile.getCurrentProfile()
-                    console.log(publicProfile)
                 }
             }
             document.getElementById('loading-modal').style.display = "none"
