@@ -75,13 +75,21 @@
                 height:100%;
             } 
         }
+        .pancake{
+            flex-wrap:wrap;
+        }
+        .pancake > div{
+            flex: 1 1 150px;
+        }
         .textarea{
             white-space: pre-wrap;
         }
     </style>
     <script async defer type="application/javascript" src="https://tonicpow.com/scripts/tonicpow.js"></script>
     <script>
-        TonicPow.shareButton('myButton',{width: auto})
+        TonicPow.shareButton('myButton',{ 
+            authText: "Share & Earn Bitcoin" 
+        })
     </script>
     <script src="dist/bsv.browser.min.js"></script>
     <script src="dist/run.browser.min.js"></script>
@@ -119,12 +127,12 @@
     </div>
     <div class="section" id='section3'>
         <h1 id="head_sec3">Section 3</h1>
-        <div class="twocolumns">
+        <div class="twocolumns pancake">
             <div id="embed_sec3">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/irNJT4aS2JU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div>
-                <button class="btn" onclick="unlockheart()">Unlock Real-time Tipping</button>
+            <div id="heartdiv">
+                <button id="unlockheartbtn" class="btn" onclick="unlockheart()">Unlock Real-time Tipping</button>
                 <div id="bubblehearts" class="particletext hearts"></div>
                 <div class='heartbtn_container disabled'>
                         <div id="heartamount" class="heartbtn" draggable="true" ondrag="btnanime()" ondragstart="firehearts(event)" ondragend="stophearts(event)">
@@ -157,6 +165,13 @@
                 console.log(site)
                 sessionStorage.setItem("site",origin)
                 loadsite(site)
+                let hcauth= sessionStorage.HandCashAuthToken
+                if(hcauth){
+                    document.getElementById('unlockheartbtn').style.display = "none"
+                    document.querySelector(".heartbtn_container").className = "heartbtn_container"
+                    const publicProfile = await account.profile.getCurrentProfile()
+                    console.log(publicProfile)
+                }
             }
             document.getElementById('loading-modal').style.display = "none"
         }

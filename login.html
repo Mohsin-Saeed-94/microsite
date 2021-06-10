@@ -12,18 +12,29 @@
             align-items: center;
         }
     </style>
+    <script src="main.js"></script> 
 </head>
 <body>
-    <div class='flex_container'>
+    <div id="login" class='flex_container'>
         <h2>Login</h2>
-        <div id="connectButton">Connect with HandCash</div>
+        <div id="connectButton">HandCash</div>
     </div>
     <script>
+        var x = location.search
+        window.onload = async function(){
+            let authToken = getUrlVars()["authToken"]
+            if(authToken){
+                document.getElementById('login').style.display = "none"
+                sessionStorage.setItem('HandCashAuthToken',authToken)
+                location.href='index_heart.html?ori=' + sessionStorage.site
+            }
+        }
         //HandCash
         const connectButton = document.getElementById('connectButton');
         function connectWithHandCash() {
             location.href = 'https://app.handcash.io/#/authorizeApp?appId=' + '60bffa9d8180660b50939208';
         }
         connectButton.addEventListener('click', connectWithHandCash, false);
+
     </script>
 </body>
