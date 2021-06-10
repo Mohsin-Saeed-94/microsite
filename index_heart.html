@@ -167,6 +167,7 @@
                 loadsite(site)
                 let hcauth= sessionStorage.HandCashAuthToken
                 if(hcauth){
+                    handcashProfile()
                     document.getElementById('unlockheartbtn').style.display = "none"
                     document.querySelector(".heartbtn_container").className = "heartbtn_container"
                 }
@@ -222,7 +223,7 @@
         }
         function stophearts(event){
             clearInterval(myHeart)
-            document.querySelector(".heartbtn_container").style.backgroundColor = "white";
+            document.querySelector(".heartbtn_container").style.backgroundColor = "transparent"
             document.querySelector(".heartbtn").innerHTML = "&#9825"
             document.querySelector(".heartbtn").style.backgroundColor = "#cc2a5d"
             document.querySelector(".heartbtn").style.color = "white"
@@ -230,7 +231,7 @@
             k=0
         }
         function btnanime(){
-            document.querySelector(".heartbtn").style.backgroundColor = "white"
+            document.querySelector(".heartbtn").style.backgroundColor = "transparent"
             document.querySelector(".heartbtn").style.color = "black"
             document.querySelector(".heartbtn").style.border = "1px dashed #cc2a5d"
         }
@@ -242,6 +243,28 @@
         }
         function unlockheart(){
             location.href= 'login.html'
+        }
+        //HandCash Login
+        async function handcashProfile(){
+            let authtoken = sessionStorage.HandCashAuthToken
+            fetch('https://us-central1-microsite-22755.cloudfunctions.net/handcash/profile',{
+                method: "POST",
+                body: JSON.stringify({
+                    authtoken: authtoken
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                //localStorage.setItem("handcashDisplayName",json.publicProfile.displayName)
+                //localStorage.setItem("hc_avatarUrl",json.publicProfile.avatarUrl)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
         }
     </script>
 </body>
