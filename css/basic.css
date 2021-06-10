@@ -75,4 +75,10 @@
       opacity: 0;
     }
   }
-   
+.btn{
+  border: 1px solid grey;
+  padding: 10px;
+  border-radius: 20px;
+  font-size:0.8em;
+  cursor:pointer;
+}
