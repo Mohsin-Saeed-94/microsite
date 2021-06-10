@@ -1,0 +1,29 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="css/handcash.css" rel="stylesheet">
+    <style>
+        .flex_container{
+            height: 300px;
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class='flex_container'>
+        <h2>Login</h2>
+        <div id="connectButton">Connect with HandCash</div>
+    </div>
+    <script>
+        //HandCash
+        const connectButton = document.getElementById('connectButton');
+        function connectWithHandCash() {
+            location.href = 'https://app.handcash.io/#/authorizeApp?appId=' + '60bffa9d8180660b50939208';
+        }
+        connectButton.addEventListener('click', connectWithHandCash, false);
+    </script>
+</body>
