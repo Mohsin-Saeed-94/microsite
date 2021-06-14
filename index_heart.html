@@ -5,6 +5,7 @@
     <title>Microsite</title>
     <link href="css/basic.css" rel="stylesheet">
     <link href="css/heart.css" rel="stylesheet">
+    <link href="css/handcash.css" rel="stylesheet">
     <link id="mystyle" href="css/style_1.css" rel="stylesheet">
     <style>
         .hero{
@@ -84,6 +85,7 @@
         .textarea{
             white-space: pre-wrap;
         }
+
     </style>
     <script async defer type="application/javascript" src="https://tonicpow.com/scripts/tonicpow.js"></script>
     <script>
@@ -131,20 +133,36 @@
             <div id="embed_sec3">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/irNJT4aS2JU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div id="heartdiv">
-                <button id="unlockheartbtn" class="btn" onclick="unlockheart()">Unlock Real-time Tipping</button>
-                <div id="bubblehearts" class="particletext hearts"></div>
-                <div class='heartbtn_container disabled'>
-                        <div id="heartamount" class="heartbtn" draggable="true" ondrag="btnanime()" ondragstart="firehearts(event)" ondragend="stophearts(event)">
-                            &#9825</div>
+            <div class="twocolumns"> <!--HC and Heart-->
+                <div id="heartdiv">
+                    <button id="unlockheartbtn" class="btn" onclick="unlockheart()">Unlock Real-time Tipping</button>
+                    <div id="bubblehearts" class="particletext hearts"></div>
+                    <div class='heartbtn_container disabled'>
+                            <div id="heartamount" class="heartbtn" draggable="true" ondrag="btnanime()" ondragstart="firehearts(event)" ondragend="stophearts(event)">
+                                &#9825</div>
+                    </div>
+                </div>
+                <div class="hcprofile_container">
+                    <div class="hcprofile">
+                        <p>From</p>
+                        <img id="viewer_pic"></img>
+                        <p id="viewer_handle">$xxx</p>
+                    </div>
+                    <div class="arrow"></div>
+                    <div class="hcprofile">
+                        <p>To</p>
+                        <img id="streamer_pic"></img>
+                        <p id="streamer_handle">$xxx</p>
+                    </div>
                 </div>
             </div>
-            <div class="textarea" id="txt_sec3">
-                <p>1234 Orange Rd, Sunkiss FL 56789</p>
-                <p>xxx-xxx-xxxx</p>
-                <p>Mon-Fri 9am-5pm</p>
+<!--             <div class="textarea" id="txt_sec3">
+                1234 Orange Rd,<br>
+                Sunkiss FL 56789<br>
+                xxx-xxx-xxxx<br>
+                Mon-Fri 9am-5pm
             </div>
-        </div>
+ -->        </div>
     </div>
     <div id="loading-modal" class="modal" style="display:block;">
         <div class="modal-content loading">
@@ -168,7 +186,9 @@
                 let hcauth= sessionStorage.HandCashAuthToken
                 if(hcauth){
                     handcashProfile()
+                    handcashStreamerProfile()
                     document.getElementById('unlockheartbtn').style.display = "none"
+                    document.querySelector(".hcprofile_container").style.display = "flex"
                     document.querySelector(".heartbtn_container").className = "heartbtn_container"
                 }
             }
@@ -247,25 +267,44 @@
 
         //HandCash Login
         async function handcashProfile(){
+            console.log('fetching HandCash profile...')
             let authtoken = sessionStorage.HandCashAuthToken
-            fetch('https://us-central1-microsite-22755.cloudfunctions.net/handcash/profile',{
-                method: "POST",
-                body: JSON.stringify({
-                    authtoken: authtoken
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
+            fetch("https://us-central1-microsite-22755.cloudfunctions.net/hc/profile", {      
+            method: "POST",
+            body: JSON.stringify({
+                authtoken: authtoken
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
             })
             .then(response => response.json())
             .then(json => {
                 console.log(json)
-                //localStorage.setItem("handcashDisplayName",json.publicProfile.displayName)
-                //localStorage.setItem("hc_avatarUrl",json.publicProfile.avatarUrl)
+                document.getElementById('viewer_pic').style.display = "block"
+                document.getElementById('viewer_pic').src = json.avatarUrl
+                document.getElementById('viewer_handle').innerHTML = '$' + json.handle
+            });      
+        }
+        async function handcashStreamerProfile(){
+            console.log('fetching HandCash profile...')
+            let authtoken = sessionStorage.HandCashAuthToken
+            fetch("https://us-central1-microsite-22755.cloudfunctions.net/hc/friend", {      
+            method: "POST",
+            body: JSON.stringify({
+                authtoken: authtoken
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
             })
-            .catch(function (error) {
-                console.log(error)
-            })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                document.getElementById('streamer_pic').style.display = "block"
+                document.getElementById('streamer_pic').src = json.userProfiles[0].avatarUrl
+                document.getElementById('streamer_handle').innerHTML = '$' + json.userProfiles[0].handle
+            });      
         }
     </script>
 </body>
