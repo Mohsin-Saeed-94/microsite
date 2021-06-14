@@ -220,7 +220,13 @@
                 <label for="sec3_cont">Section 3 Content:</label>
                 <textarea name="sec3_cont" id="inp_section3_content"></textarea><br>
                 <label for="sec3_embed">Section 3 Embed:</label>
-                <textarea name="sec3_embed" id="inp_section3_emb" placeholder="Copy & Paste HTML from Google Map, YouTube, Twitter embeds"></textarea>
+                <textarea name="sec3_embed" id="inp_section3_emb" placeholder="Copy & Paste HTML from Google Map, YouTube, Twitter embeds"></textarea><br>
+                <input type="checkbox" id="inp_section3_tip" onchange="showTiptoInput()" name="sec3_tip" style="display:inline-block;width:20px;">
+                <label for="sec3_tip">Real-time Tipping Widget</label><br>
+                <div id="tipinput" style="display:none;">
+                    <label for="sec3_tipto">HandCash Handle to receive Tip:</label>
+                    <input type="text" id="inp_section3_tipto" name="sec3_tipto" placeholder="saichaya">
+                </div>
                 <label for="css">Style:</label>
                 <select name="css" id="inp_css" onchange="previewStyle()">
                     <option value=1>Classic</option>
@@ -301,6 +307,8 @@
             var img_hero = document.getElementById("inp_hero_image").value
             var img_sqr = document.getElementById("inp_section2_image").value
             var html_emb = document.getElementById("inp_section3_emb").value
+            var tip = document.getElementById("inp_section3_tip").checked
+            var tipto = document.getElementById("inp_section3_tipto").value
             var css_url = cssurl()
             const tx = new Run.Transaction()
             var mysite, mycss
@@ -325,11 +333,13 @@
                 mysite.setHeroImg(img_hero)
                 mysite.setSquareImg(img_sqr)
                 mysite.setEmbed(html_emb)
+                mysite.useTipWidget(tip)
+                mysite.setTipTo(tipto)
                 mysite.setCSS(mycss)
             })
             await tx.publish()
             console.log(mysite)
-            document.getElementById('newsitelink').href = 'index.html?ori='+mysite.origin
+            document.getElementById('newsitelink').href = 'index_heart.html?ori='+mysite.origin
             document.getElementById('editsitelink').href = 'builder.html?ori='+mysite.origin
             document.getElementById('newsiteurl').innerHTML = "https://saichaya.github.io/microsite/?ori="+mysite.origin
             document.getElementById('editsiteurl').innerHTML = "https://saichaya.github.io/microsite/builder?ori="+mysite.origin
@@ -347,6 +357,11 @@
             document.getElementById("inp_hero_image").value = site.heroimgurl
             document.getElementById("inp_section2_image").value = site.squareimgurl
             document.getElementById("inp_section3_emb").value = site.embed
+            document.getElementById("inp_section3_tip").checked = site.tipwidget
+            if(site.useTipWidget){
+                showTiptoInput()
+                document.getElementById("inp_section3_tipto").value = site.tipto
+            }
             document.getElementById("previewframe").src = 'index.html?ori='+site.origin
             switch(site.css.url){
                 case "css/style_1.css": document.getElementById('inp_css').value = "1"
@@ -363,6 +378,14 @@
             var y = (x.contentWindow || x.contentDocument)
             if (y.document)y = y.document
             y.getElementById("mystyle").href = cssurl()
+        }
+        function showTiptoInput(){
+            var x = document.getElementById('inp_section3_tip').checked
+            if(x){
+                document.getElementById("tipinput").style.display = "block"
+            }else{
+                document.getElementById("tipinput").style.display = "none"
+            }
         }
     </script>
 </body>

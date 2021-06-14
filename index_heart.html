@@ -133,7 +133,7 @@
             <div id="embed_sec3">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/irNJT4aS2JU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div class="twocolumns"> <!--HC and Heart-->
+            <div id="tip-widget" class="twocolumns">
                 <div id="heartdiv">
                     <button id="unlockheartbtn" class="btn" onclick="unlockheart()">Unlock Real-time Tipping</button>
                     <div id="bubblehearts" class="particletext hearts"></div>
@@ -184,7 +184,6 @@
                     handcashProfile()
                     handcashStreamerProfile()
                     document.getElementById('unlockheartbtn').style.display = "none"
-                    document.querySelector(".hcprofile_container").style.display = "flex"
                     document.querySelector(".heartbtn_container").className = "heartbtn_container"
                 }
             }
@@ -209,6 +208,9 @@
             document.getElementById('txt_sec3').innerHTML = site.content[2]
             document.getElementById('embed_sec3').innerHTML = site.embed
             document.getElementById('copyright').innerHTML = '©' + site.title
+            if(site.tipwidget){
+                document.getElementById('tip-widget').style.display = "flex"
+            }
         }
 
         //Heart Button

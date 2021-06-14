@@ -14,7 +14,8 @@
     </style>
 </head>
 <body>
-    <div id="login" class='flex_container'>
+    <p id="redirect" style="text-align:center;">Redirecting...</p>
+    <div id="login" class='flex_container' style="display:none;">
         <h2>Login</h2>
         <div id="connectButton">HandCash</div>
     </div>
@@ -25,6 +26,9 @@
             if(authToken){
                 sessionStorage.setItem('HandCashAuthToken',authToken)
                 location.href='index_heart.html?ori=' + sessionStorage.site
+            }else{
+                document.getElementById('login').style.display = "flex"
+                document.getElementById('redirect').style.display = "none"
             }
         }
         //Query String
