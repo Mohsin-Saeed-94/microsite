@@ -211,6 +211,7 @@
             document.getElementById('copyright').innerHTML = '©' + site.title
             if(site.tipwidget){
                 document.getElementById('tip-widget').style.display = "flex"
+                sessionStorage.setItem('TipTo',site.tipto)
             }
         }
 
@@ -288,10 +289,12 @@
         async function handcashStreamerProfile(){
             console.log('fetching HandCash profile...')
             let authtoken = sessionStorage.HandCashAuthToken
+            let tipto = sessionStorage.TipTo
             fetch("https://us-central1-microsite-22755.cloudfunctions.net/hc/friend", {      
             method: "POST",
             body: JSON.stringify({
-                authtoken: authtoken
+                authtoken: authtoken,
+                tipto: tipto
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
