@@ -2,6 +2,7 @@
 Simple Microsite Builder
 https://saichaya.github.io/microsite/builder
 
+Copyright 2021 Sai Chaya All rights reserved. No License.
 
 # How It Works
 Simple Microsite Builder offers an easy solution for anyone who wants to build a tiny website without much time and effort.
