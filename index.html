@@ -243,12 +243,13 @@
             myHeart = setInterval(hearts,500)
         }
         function stophearts(event){
+            var amount = k/100
             clearInterval(myHeart)
             document.querySelector(".heartbtn_container").style.backgroundColor = "transparent"
             document.querySelector(".heartbtn").innerHTML = "&#9825"
             document.querySelector(".heartbtn").style.backgroundColor = "#cc2a5d"
             document.querySelector(".heartbtn").style.color = "white"
-            handcashPay(k)
+            handcashPay(amount)
             clearhearts()
             k=0
         }
@@ -311,7 +312,7 @@
             });      
         }
         async function handcashPay(amount){
-            console.log('paying with HandCash...')
+            console.log('paying' + amount+'cents with HandCash...')
             let authtoken = sessionStorage.HandCashAuthToken
             let tipto = sessionStorage.TipTo
             fetch("https://us-central1-microsite-22755.cloudfunctions.net/hc/pay", {      
