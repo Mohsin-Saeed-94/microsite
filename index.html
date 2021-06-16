@@ -4,6 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Microsite</title>
     <link href="css/basic.css" rel="stylesheet">
+    <link href="css/heart.css" rel="stylesheet">
+    <link href="css/handcash.css" rel="stylesheet">
     <link id="mystyle" href="css/style_1.css" rel="stylesheet">
     <style>
         .hero{
@@ -47,6 +49,8 @@
         .onecolumn{
             display:flex;
             justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
         .twocolumns{
             display:flex;
@@ -63,18 +67,33 @@
             } 
         }
         @media only screen and (max-width: 618px) {
+            #section3{
+                padding:0px;
+            }
+            .twocolumns div{
+                margin:20px 0px;
+            }
             .twocolumns iframe{
-                width:220;
-                height:220;
+                width: 100%;
+                height:100%;
             } 
+        }
+        .pancake{
+            flex-wrap:wrap;
+        }
+        .pancake > div{
+            flex: 1 1 150px;
         }
         .textarea{
             white-space: pre-wrap;
         }
+
     </style>
     <script async defer type="application/javascript" src="https://tonicpow.com/scripts/tonicpow.js"></script>
     <script>
-        TonicPow.shareButton('myButton',{width: auto})
+        TonicPow.shareButton('myButton',{ 
+            authText: "Share & Earn Bitcoin" 
+        })
     </script>
     <script src="dist/bsv.browser.min.js"></script>
     <script src="dist/run.browser.min.js"></script>
@@ -112,14 +131,31 @@
     </div>
     <div class="section" id='section3'>
         <h1 id="head_sec3">Section 3</h1>
-        <div class="twocolumns">
+        <div class="twocolumns pancake">
             <div id="embed_sec3">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224444.7056969226!2d-81.50926810347482!3d28.481096765839244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e773d8fecdbc77%3A0xac3b2063ca5bf9e!2sOrlando%2C%20FL!5e0!3m2!1sen!2sus!4v1622596364415!5m2!1sen!2sus" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/irNJT4aS2JU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div class="textarea" id="txt_sec3">
-                <p>1234 Orange Rd, Sunkiss FL 56789</p>
-                <p>xxx-xxx-xxxx</p>
-                <p>Mon-Fri 9am-5pm</p>
+            <div id="tip-widget" class="onecolumn">
+                <button id="unlockheartbtn" class="btn" onclick="unlockheart()">Unlock Real-time Tipping</button>
+                <div id="heartdiv">
+                    <div id="bubblehearts" class="particletext hearts"></div>
+                    <div class='heartbtn_container disabled'>
+                            <div id="heartamount" class="heartbtn" draggable="true" ondrag="btnanime()" ondragstart="firehearts(event)" ondragend="stophearts(event)">
+                                &#9825</div>
+                    </div>
+                </div>
+                <div class="hcprofile_container">
+                    <div class="hcprofile">
+                        <img id="viewer_pic"></img>
+                        <p id="viewer_handle">$xxx</p>
+                    </div>
+                    <div class="hcprofile">
+                        <img id="streamer_pic"></img>
+                        <p id="streamer_handle">$xxx</p>
+                    </div>
+                </div>
+            </div>
+            <div class="textarea" id="txt_sec3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             </div>
         </div>
     </div>
@@ -140,7 +176,16 @@
                 const site = await run.load(origin)
                 await site.sync()
                 console.log(site)
+                sessionStorage.setItem("site",origin)
                 loadsite(site)
+                let hcauth= sessionStorage.HandCashAuthToken
+                if(hcauth){
+                    handcashProfile()
+                    handcashStreamerProfile()
+                    document.getElementById('unlockheartbtn').style.display = "none"
+                    document.querySelector(".hcprofile_container").style.display = "flex"
+                    document.querySelector(".heartbtn_container").className = "heartbtn_container"
+                }
             }
             document.getElementById('loading-modal').style.display = "none"
         }
@@ -163,6 +208,127 @@
             document.getElementById('txt_sec3').innerHTML = site.content[2]
             document.getElementById('embed_sec3').innerHTML = site.embed
             document.getElementById('copyright').innerHTML = '©' + site.title
+            if(site.tipwidget){
+                document.getElementById('tip-widget').style.display = "flex"
+                sessionStorage.setItem('TipTo',site.tipto)
+            }else{
+                document.getElementById('tip-widget').style.display = "none"
+            }
+        }
+
+        //Heart Button
+        var k = 0
+        function hearts() {
+            const div = document.getElementById("bubblehearts")
+            for (var i = 0; i <= 3; i++) {
+                var size = rnd(60, 120) / 10;
+                var h = document.createElement("SPAN")
+                h.className = "particle"
+                h.style.top = 80 + '%'
+                h.style.left = rnd(0, 100) + '%'
+                h.style.width = size + 'px'
+                h.style.height = size + 'px'
+                h.style.animationDelay = i/3 +'s'
+                var hdiv = div.appendChild(h)
+            }
+            //Display Donated Amount
+            document.getElementById('heartamount').innerHTML = k+'¢'
+            k++
+        }
+        function rnd(m,n){
+            return Math.floor(Math.random() * (n - m + 1)) + m
+        }
+        function firehearts(event){
+            document.getElementById('heartamount').innerHTML = ""
+            myHeart = setInterval(hearts,500)
+        }
+        function stophearts(event){
+            clearInterval(myHeart)
+            document.querySelector(".heartbtn_container").style.backgroundColor = "transparent"
+            document.querySelector(".heartbtn").innerHTML = "&#9825"
+            document.querySelector(".heartbtn").style.backgroundColor = "#cc2a5d"
+            document.querySelector(".heartbtn").style.color = "white"
+            clearhearts()
+            k=0
+        }
+        function btnanime(){
+            document.querySelector(".heartbtn").style.backgroundColor = "transparent"
+            document.querySelector(".heartbtn").style.color = "black"
+            document.querySelector(".heartbtn").style.border = "1px dashed #cc2a5d"
+        }
+        function clearhearts(){
+            const div = document.getElementById("bubblehearts")
+            while (div.hasChildNodes()) {  
+                div.removeChild(div.firstChild);
+            }
+        }
+        function unlockheart(){
+            location.href= 'login.html'
+        }
+
+        //HandCash
+        async function handcashProfile(){
+            console.log('fetching HandCash profile...')
+            let authtoken = sessionStorage.HandCashAuthToken
+            fetch("https://us-central1-microsite-22755.cloudfunctions.net/hc/profile", {      
+            method: "POST",
+            body: JSON.stringify({
+                authtoken: authtoken
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+            })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                document.getElementById('viewer_pic').style.display = "block"
+                document.getElementById('viewer_pic').src = json.avatarUrl
+                document.getElementById('viewer_handle').innerHTML = '$' + json.handle
+            });      
+        }
+        async function handcashStreamerProfile(){
+            console.log('fetching HandCash profile...')
+            let authtoken = sessionStorage.HandCashAuthToken
+            let tipto = sessionStorage.TipTo
+            fetch("https://us-central1-microsite-22755.cloudfunctions.net/hc/friend", {      
+            method: "POST",
+            body: JSON.stringify({
+                authtoken: authtoken,
+                tipto: tipto
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+            })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                document.getElementById('streamer_pic').style.display = "block"
+                document.getElementById('streamer_pic').src = json.userProfiles[0].avatarUrl
+                document.getElementById('streamer_handle').innerHTML = '$' + json.userProfiles[0].handle
+            });      
+        }
+        async function handcashPay(){
+            console.log('paying with HandCash...')
+            let authtoken = sessionStorage.HandCashAuthToken
+            let tipto = sessionStorage.TipTo
+            let amount = 0.02
+            fetch("https://us-central1-microsite-22755.cloudfunctions.net/hc/pay", {      
+            method: "POST",
+            body: JSON.stringify({
+                authtoken: authtoken,
+                amount:amount,
+                tipto: tipto
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+            })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+            });      
         }
     </script>
 </body>
