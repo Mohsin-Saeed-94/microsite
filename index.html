@@ -312,7 +312,7 @@
             });      
         }
         async function handcashPay(amount){
-            console.log('paying' + amount+'cents with HandCash...')
+            console.log('paying ' + amount+' USD with HandCash...')
             let authtoken = sessionStorage.HandCashAuthToken
             let tipto = sessionStorage.TipTo
             fetch("https://us-central1-microsite-22755.cloudfunctions.net/hc/pay", {      
