@@ -25,7 +25,7 @@
             let authToken = getUrlVars()["authToken"]
             if(authToken){
                 sessionStorage.setItem('HandCashAuthToken',authToken)
-                location.href='index_heart.html?ori=' + sessionStorage.site
+                location.href='index.html?ori=' + sessionStorage.site
             }else{
                 document.getElementById('login').style.display = "flex"
                 document.getElementById('redirect').style.display = "none"
