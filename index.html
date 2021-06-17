@@ -140,7 +140,7 @@
                 <div id="heartdiv">
                     <div id="bubblehearts" class="particletext hearts"></div>
                     <div class='heartbtn_container disabled'>
-                            <div id="heartamount" class="heartbtn" draggable="true" ondrag="btnanime()" ondragstart="firehearts(event)" ondragend="stophearts(event)">
+                            <div id="heartamount" class="heartbtn" draggable="true" ondrag="btnanime()" ondragstart="firehearts(event)" ondragend="stophearts(event)" ontouchstart="firehearts(event)" ontouchend="stophearts(event)" ontouchmove="btnanime()">
                                 &#9825</div>
                     </div>
                 </div>
@@ -149,6 +149,7 @@
                         <img id="viewer_pic"></img>
                         <p id="viewer_handle">$xxx</p>
                     </div>
+                    <div style="font-size:60px;">&#8594;</div>
                     <div class="hcprofile">
                         <img id="streamer_pic"></img>
                         <p id="streamer_handle">$xxx</p>
