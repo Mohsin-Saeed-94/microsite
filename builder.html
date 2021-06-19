@@ -5,6 +5,9 @@
     <title>Microsite Builder</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="css/basic.css" rel="stylesheet">
+    <script src="https://unpkg.com/bsv"></script>
+    <script src="https://unpkg.com/txforge"></script>
+    <script src="https://unpkg.com/paypresto.js"></script>
     <style>
         body{
             font-family:  sans-serif;
@@ -188,7 +191,8 @@
         <h2>Features</h2>
         <div class="flex_container">
             <div style="max-width:600px;">
-                <div id='widget'></div>
+                <h4>Real-time Tipping Widget powered by HandCash Connect</h4>
+                <p>If you are doing a livestream, your fans can donate directly to you by using our widget. You can see the transaction in real-time in your HandCash wallet.<p>
                 <h4>TonicPow Share Button</h4>
                 <p>Your microsite has a TonicPow Share Button built in so that the visitors can promote it. All you need to do is to set up a campaign for your microsite at <a href="https://tpow.app/saichaya">TonicPow</a>.<p>
             </div>
@@ -244,6 +248,7 @@
                     <span onclick="document.getElementById('paymodal').style.display='none'"
                     class="close">&times;</span>
                     <div id='my-money-button'></div>
+                    <div id='widget'></div>
             </div>
         </div>
         <div id="mainmodal" class="modal">
@@ -272,7 +277,7 @@
                 setform(site)
                 existingsitejig = site
             }
-            //MoneyButton
+        /*     //MoneyButton
             const div = document.getElementById('my-money-button')
             await moneyButton.render(div, {
                 to: "1FiU9Tp7sarEY6HenZr4ZxRwhXbe12bmT",
@@ -280,7 +285,7 @@
                 currency: "USD",
                 onPayment: publish,
                 onError: function (arg) { console.log('onError', arg) }
-            })
+            }) */
         }
         function cssurl(){
             var css = document.getElementById("inp_css").value
@@ -388,5 +393,25 @@
                 document.getElementById("tipinput").style.display = "none"
             }
         }
+
+        //PayPresto
+        var exchangerate = 160 // 160 USD/bsv
+            const { Presto, embed } = Paypresto;
+            const payment = Presto.create({
+                key: 'L5j9uZAVxXUL54qVLFrzNP1Mco7jgudtGu89K2zELaA7m5trPbKz',
+                description: 'Microsite',
+                outputs: [
+                    { to: '1AfmTQXHy971So8PoVVnki8EXySwEk2q8j', satoshis: amount / exchangerate * 100000000 }
+                ]
+                })
+            payment
+                .mount(embed('#widget'))
+                .on('funded', payment => payment.pushTx())
+                .on('success', txid => {
+                    console.log('TX sent', txid)
+                    publish()
+                    document.getElementById('paymodal').style.display='none'
+                })
+                .on('error', err => console.log(err))
     </script>
 </body>
