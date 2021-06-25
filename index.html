@@ -7,6 +7,7 @@
     <link href="css/heart.css" rel="stylesheet">
     <link href="css/handcash.css" rel="stylesheet">
     <link id="mystyle" href="css/style_1.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.1.2/socket.io.min.js" integrity="sha384-toS6mmwu70G0fw54EGlWWeA4z3dyJ+dlXBtSURSKN4vyRFOcxd3Bzjj/AoOwY+Rg" crossorigin="anonymous"></script>
     <script src="https://tonicpow.com/scripts/tonicpow.js"></script>
     <style>
         .hero{
@@ -88,6 +89,10 @@
         .textarea{
             white-space: pre-wrap;
         }
+        #messages{
+            width:200px;
+            border:1px solid red;
+        }
 
     </style>
     <script>
@@ -156,6 +161,9 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <ul id="messages"></ul>
+            </div>      
             <div class="textarea" id="txt_sec3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             </div>
         </div>
@@ -288,6 +296,8 @@
                 document.getElementById('viewer_pic').style.display = "block"
                 document.getElementById('viewer_pic').src = json.avatarUrl
                 document.getElementById('viewer_handle').innerHTML = '$' + json.handle
+                localStorage.setItem('hc_avatarURL',json.avatarUrl)
+                localStorage.setItem('hc_handle',json.handle)
             });      
         }
         async function handcashStreamerProfile(){
@@ -330,7 +340,26 @@
             .then(response => response.json())
             .then(json => {
                 console.log(json)
+                sendchatheart(amount)
             });      
+        }
+
+        //Chat
+        const socket = io("http://localhost:3000/");
+        socket.on("connect", () => {
+            console.log("Hello")
+            socket.send("Hello!");
+        });
+        socket.on('chat message', function(amount,user) {
+          var item = document.createElement('li');
+          item.textContent = `${user.handle} tipped $${amount}`;
+          messages.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+        function sendchatheart(amount){
+            var avatar = localStorage.hc_avatarURL
+            var handle = localStorage.hc_handle
+            socket.emit('chat message', amount, {avatar:avatar,handle:handle});
         }
     </script>
 </body>
