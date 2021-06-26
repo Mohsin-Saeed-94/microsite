@@ -46,29 +46,3 @@
 	top:1px;
 	box-shadow: 0px 0px 0px hsla(0, 0%, 0%, .15);
 }
-.hcprofile_container{
-	display: none;
-	justify-content: center;
-	align-items: center;
-	text-align:center;
-	width: 240px;
-}
-.hcprofile_container > div{
-	margin: 3px 10px;
-}
-.hcprofile > img{
-	width:40px;
-	height:40px;
-	background-color:#38CB7C;
-	border: 2px solid #38CB7C;
-	border-radius:50%;
-}
-.hcprofile > p{
-	font: 0.6em;
-	font-family: 'Poppins', sans-serif;
-	margin: 3px;
-}
-.arrow{
-	border-top: 1px solid #38CB7C;
-	width:100%;
-}

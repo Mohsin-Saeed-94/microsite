@@ -1,5 +1,6 @@
  #heartdiv{
-  height: 240px;
+  height: 200px;
+  width:200px;
   display:flex;
   flex-direction: column;
   justify-content: center;
@@ -28,6 +29,7 @@
   text-align:center;
   line-height:40px;
   z-index:2;
+  font-family:sans-serif;
  }
  .particletext {
     position: absolute;
@@ -93,3 +95,64 @@
               transform: translate(0, -1000%) rotate(45deg);
     }
   }
+
+#messages{
+  width:240px;
+  height: 280px;
+  border:1px solid grey;
+  list-style-type: none;
+  margin: 0px;
+  padding: 10px;
+  overflow: auto;
+}
+#messages > li{
+  margin: 12 0px;
+}
+.chat_pic{
+  width:16px;
+  height:16px;
+  margin: 0px 8px;
+	background-color:#38CB7C;
+	border: 2px solid #38CB7C;
+  border-radius:50%;
+  vertical-align: text-top;
+}
+#tip-widget{
+  display:flex;
+  align-items: center;
+}
+#tip-input{
+  margin: 0px 20px;
+}
+@media only screen and (max-width: 618px) {
+  #messages{
+    height: 80px;
+  }
+  #tip-widget{
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.hcprofile_container{
+	display: flex;
+	justify-content: space-around;
+	text-align:center;
+  width:200px;
+}
+.hcprofile_container > div{
+	margin: 1px 1px;
+}
+.hcprofile > img{
+	width:28px;
+	height:28px;
+	background-color:#38CB7C;
+	border: 2px solid #38CB7C;
+	border-radius:50%;
+}
+.hcprofile > p{
+	font: 0.4em;
+	font-family: 'Poppins', sans-serif;
+  margin: 1px;
+}
