@@ -58,7 +58,7 @@
             display:flex;
             justify-content: center;
         }
-        .twocolumns div{
+        .twocolumns>div{
             margin:20px;
         }
         @media only screen and (max-width: 900px) {
@@ -66,14 +66,14 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+            }
+            .twocolumns>div{
+                margin:20px 0px;
             } 
         }
         @media only screen and (max-width: 618px) {
             #section3{
                 padding:0px;
-            }
-            .twocolumns div{
-                margin:20px 0px;
             }
             .twocolumns iframe{
                 width: 100%;
@@ -88,10 +88,6 @@
         }
         .textarea{
             white-space: pre-wrap;
-        }
-        #messages{
-            width:200px;
-            border:1px solid red;
         }
 
     </style>
@@ -140,30 +136,39 @@
             <div id="embed_sec3">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/irNJT4aS2JU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div id="tip-widget" class="onecolumn">
-                <button id="unlockheartbtn" class="btn" onclick="unlockheart()">Unlock Real-time Tipping</button>
-                <div id="heartdiv">
-                    <div id="bubblehearts" class="particletext hearts"></div>
-                    <div class='heartbtn_container disabled'>
-                            <div id="heartamount" class="heartbtn" draggable="true" ondrag="btnanime()" ondragstart="firehearts(event)" ondragend="stophearts(event)" ontouchstart="firehearts(event)" ontouchend="stophearts(event)" ontouchmove="btnanime()">
-                                &#9825</div>
+            <div id='tip-widget'>
+                <div> <!--chatbox-->
+                    <ul id="messages">
+                        <li><img class="chat_pic"></img><span>Saichaya tipped $0.04</span></li>
+                        <li><img class="chat_pic"></img><span>Saichaya tipped $0.04</span></li>
+                        <li><img class="chat_pic"></img><span>Saichaya tipped $0.04</span></li>
+                        <li><img class="chat_pic"></img><span>Saichaya tipped $0.04</span></li>
+                        <li><img class="chat_pic"></img><span>Saichaya tipped $0.04</span></li>
+
+                    </ul>
+                </div>      
+                <div id='tip-input'> <!--heartbox-->
+                    <button style="display:none;" id="unlockheartbtn" class="btn" onclick="unlockheart()">Unlock Real-time Tipping</button>
+                    <div id="heartdiv">
+                        <div id="bubblehearts" class="particletext hearts"></div>
+                        <div class='heartbtn_container disabled'>
+                                <div id="heartamount" class="heartbtn" draggable="true" ondrag="btnanime()" ondragstart="firehearts(event)" ondragend="stophearts(event)" ontouchstart="firehearts(event)" ontouchend="stophearts(event)" ontouchmove="btnanime()">
+                                    &#9825</div>
+                        </div>
                     </div>
-                </div>
-                <div class="hcprofile_container">
-                    <div class="hcprofile">
-                        <img id="viewer_pic"></img>
-                        <p id="viewer_handle">$xxx</p>
-                    </div>
-                    <div style="font-size:60px;">&#8594;</div>
-                    <div class="hcprofile">
-                        <img id="streamer_pic"></img>
-                        <p id="streamer_handle">$xxx</p>
+                    <div class="hcprofile_container">
+                        <div class="hcprofile">
+                            <img id="viewer_pic"></img>
+                            <p id="viewer_handle">$xxx</p>
+                        </div>
+                        <div style="font-size:40px;">&#8594;</div>
+                        <div class="hcprofile">
+                            <img id="streamer_pic"></img>
+                            <p id="streamer_handle">$xxx</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div>
-                <ul id="messages"></ul>
-            </div>      
             <div class="textarea" id="txt_sec3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             </div>
         </div>
@@ -351,10 +356,18 @@
             socket.send("Hello!");
         });
         socket.on('chat message', function(amount,user) {
+          var cents = amount / 100
+          var messages = document.getElementById('messages')
           var item = document.createElement('li');
-          item.textContent = `${user.handle} tipped $${amount}`;
-          messages.appendChild(item);
-          window.scrollTo(0, document.body.scrollHeight);
+          var img = document.createElement('IMG');
+          var span = document.createElement('SPAN');    
+          var t = document.createTextNode(`${user.handle} tipped ${cents}¢`);
+          span.appendChild(t)
+          img.src = user.avatar
+          img.className = 'chat_pic'
+          item.appendChild(img)
+          item.appendChild(span)
+          messages.insertBefore(item, messages.childNodes[0])
         });
         function sendchatheart(amount){
             var avatar = localStorage.hc_avatarURL
