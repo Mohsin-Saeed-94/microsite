@@ -2,6 +2,8 @@
 Simple Microsite Builder
 https://saichaya.github.io/microsite/builder
 
+To test Real-time Tipping powered by HandCash Connect, use npm install and run the index.js file in /chat.
+
 Copyright 2021 Sai Chaya All rights reserved. No License.
 
 # How It Works
