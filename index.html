@@ -251,7 +251,7 @@
             myHeart = setInterval(hearts,500)
         }
         function stophearts(event){
-            var amount = k/100
+            var amount = (k-1)/100
             clearInterval(myHeart)
             document.querySelector(".heartbtn_container").style.backgroundColor = "transparent"
             document.querySelector(".heartbtn").innerHTML = "&#9825"
