@@ -344,7 +344,7 @@
         }
 
         //Chat
-        const socket = io("http://localhost:3000/");
+        const socket = io("https://us-central1-microsite-22755.cloudfunctions.net:3000/");
         socket.on("connect", () => {
             console.log("Hello")
             socket.send("Hello!");
