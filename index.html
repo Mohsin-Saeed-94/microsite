@@ -350,7 +350,7 @@
             socket.send("Hello!");
         });
         socket.on('chat message', function(amount,user) {
-          var cents = amount / 100
+          var cents = Math.round(amount * 100);
           var messages = document.getElementById('messages')
           var item = document.createElement('li');
           var img = document.createElement('IMG');
