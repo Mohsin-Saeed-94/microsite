@@ -344,7 +344,7 @@
         }
 
         //Chat
-        const socket = io();
+        const socket = io("/chat");
         socket.on("connect", () => {
             socket.send("Hello!");
         });
