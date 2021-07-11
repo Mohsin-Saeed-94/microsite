@@ -344,7 +344,7 @@
         }
 
         //Chat
-        const socket = io("https://buildmicro.site");
+        const socket = io("https://buildmicro.site/chat");
         socket.on("connect", () => {
             socket.send("Hello!");
             console.log("socket id", socket.id);
