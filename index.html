@@ -348,8 +348,15 @@
             path: "/chat/"
             });
         socket.on("connect", () => {
-            socket.send("Hello!");
+            console.log("socket connected",socket.connected);
             console.log("socket id", socket.id);
+        });
+        socket.on("disconnect", () => {
+            console.log("socket connected",socket.connected);
+            console.log("socket id", socket.id);
+        });
+        socket.on("connect_error", () => {
+            console.log("socket connect error")
         });
         socket.on('chat message', function(amount,user) {
           var cents = Math.round(amount * 100);
