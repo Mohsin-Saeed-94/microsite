@@ -14,7 +14,7 @@ io.on('connection', (socket) => {
     });
   });
   
-httpServer.listen(8080, () => {
+httpServer.listen(3000, () => {
   console.log('listening on *:3000');
 });
 
