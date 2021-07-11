@@ -344,7 +344,7 @@
         }
 
         //Chat
-        const socket = io("https://buildmicro.site:3000");
+        const socket = io();
         socket.on("connect", () => {
             socket.send("Hello!");
             console.log("socket id", socket.id);
