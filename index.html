@@ -344,9 +344,10 @@
         }
 
         //Chat
-        const socket = io("https://buildmicro.site", { transports: ["websocket"] });
+        const socket = io();
         socket.on("connect", () => {
             socket.send("Hello!");
+            console.log("socket id", socket.id);
         });
         socket.on('chat message', function(amount,user) {
           var cents = Math.round(amount * 100);
