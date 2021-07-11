@@ -9,6 +9,9 @@ const io = require("socket.io")(httpServer, {
 
 io.on('connection', (socket) => {
     console.log('a user connected to socket id:', socket.id);
+    socket.on("error", (err) => {
+      console.log({err})
+    });
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });
