@@ -344,7 +344,7 @@
         }
 
         //Chat
-        const socket = io("https://buildmicro.site:8080",{
+        const socket = io("https://buildmicro.site",{
             path: "/chat/"
             });
         socket.on("connect", () => {
