@@ -344,7 +344,7 @@
         }
 
         //Chat
-        const socket = io("https://buildmicro.site");
+        const socket = io("https://buildmicro.site", { transports: ["websocket"] });
         socket.on("connect", () => {
             socket.send("Hello!");
         });
