@@ -355,7 +355,7 @@
             console.log("socket connected",socket.connected);
             console.log("socket id", socket.id);
         });
-        socket.on("connect_error", () => {
+        socket.on("connect_error", (err) => {
             console.log("socket connect error:", err.message, err.data)
         });
         socket.on('chat message', function(amount,user) {
