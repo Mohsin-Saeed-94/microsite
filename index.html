@@ -356,7 +356,7 @@
             console.log("socket id", socket.id);
         });
         socket.on("connect_error", () => {
-            console.log("socket connect error")
+            console.log("socket connect error:", err.message, err.data)
         });
         socket.on('chat message', function(amount,user) {
           var cents = Math.round(amount * 100);
